@@ -17,6 +17,7 @@ class App extends Component {
         <h3>prop number is : {this.props.propNumber}</h3>
         <h3>prop string is : {this.props.propString}</h3>
         <h3>prop object 1 is : {this.props.propObject.obj1}</h3>
+        <h3>prop object 2 is : {this.props.propObject.obj2}</h3>
         <Parent />
       </div>
     );
@@ -36,8 +37,8 @@ App.defaultProps = {
   propString: "This is prop string",
   propObject: {
     obj1: "I am obj1",
-    obj1: "I am obj2",
-    obj1: "I am obj3"
+    obj2: "I am obj2",
+    obj3: "I am obj3"
   }
 }
 
