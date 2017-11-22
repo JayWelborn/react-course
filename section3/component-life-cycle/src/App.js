@@ -50,6 +50,31 @@ export class Body extends Component {
 
 
 export class Numbers extends Component {
+  componentWillMount(){
+    console.log("componentWillMount called here")
+  }
+
+  componentDidMount(){
+    console.log("componentDidMount called here")
+  }
+
+  componentWillReceiveProps(newProps){
+    console.log("componentWillReceiveProps called")
+  }
+
+  shouldComponentUpdate(newProps, nextState){
+    console.log("shouldComponentUpdate called")
+    return true;
+  }
+
+  componentDidUpdate(newProprs, nextState){
+    console.log("Called componentDidUpdate")
+  }
+
+  componentWillUnmount(){
+    console.log("Called componentWillUnmount")
+  }
+
   render() {
     return (
       <div>
