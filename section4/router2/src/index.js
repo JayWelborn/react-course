@@ -12,6 +12,8 @@ import One from './One'
 import Two from './Two'
 import Three from './Three'
 import Four from './Four'
+import NoMatch from './NoMatch'
+import Fourpointone from './Fourpointone'
 
 
 ReactDOM.render(
@@ -20,7 +22,11 @@ ReactDOM.render(
     <Route path="/one" component={One}></Route>
     <Route path="/two" component={Two}></Route>
     <Route path="/Three" component={Three}></Route>
-    <Route path="/Four" component={Four}></Route>
+    <Route path="/Four" component={Four}>
+      <Route path="/Four/:id" component={Fourpointone}></Route>
+    </Route>
+
+    <Route path="*" component={NoMatch}></Route>
   </Router>
 
   , document.getElementById('root'));
