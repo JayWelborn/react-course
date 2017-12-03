@@ -23,11 +23,27 @@ export default class Usurvey extends Component {
   }
 
   answerSelected(event){
-    console.log(event.target.value)
+    var answers = this.state.answers;
+    if(event.target.name === 'answer1'){
+      answers.answer1 = event.target.value
+    } else if(event.target.name === 'answer2'){
+      answers.answer2 = event.target.value
+    } else if(event.target.name === 'answer3'){
+      answers.answer3 = event.target.value
+    } else if(event.target.name === 'answer4'){
+      answers.answer4 = event.target.value
+    } else if(event.target.name === 'answer5'){
+      answers.answer5 = event.target.value
+    }
+    this.setState(answers: answers)
   }
 
   questionSubmit(event){
-    console.log("submitted")
+    firebase.database().ref('uSurvey/'+this.state.uid).set({
+      studentName: this.state.studentName,
+      answers: this.state.answers
+    });
+    this.setState({isSubmitted: true})
   }
 
   constructor(props){
@@ -35,11 +51,13 @@ export default class Usurvey extends Component {
 
     this.state = {
       uid: uuid.v1(),
-      studentName: 'killerMan',
+      studentName: '',
       answers: {
         answer1: '',
         answer2: '',
-        answer3: ''
+        answer3: '',
+        answer4: '',
+        answer5: ''
       },
       isSubmitted: false
     };
@@ -87,6 +105,24 @@ export default class Usurvey extends Component {
             <input type="radio" name="answer3" value="yes" onChange={this.answerSelected}/>yes
             <input type="radio" name="answer3" value="no" onChange={this.answerSelected}/>no
             <input type="radio" name="answer3" value="maybe" onChange={this.answerSelected}/>maybe
+          </div>
+          <div className="card">
+            <label>What is your favorite color? </label>
+            <br/>
+            <input type="radio" name="answer4" value="Blue" onChange={this.answerSelected}/>Blue
+            <input type="radio" name="answer4" value="Red" onChange={this.answerSelected}/>Red
+            <input type="radio" name="answer4" value="Yellow" onChange={this.answerSelected}/>Yellow
+          </div>
+          <div className="card">
+            <label>What is your favorite continent? </label>
+            <br/>
+            <input type="radio" name="answer5" value="Europe" onChange={this.answerSelected}/>Europe
+            <input type="radio" name="answer5" value="Asia" onChange={this.answerSelected}/>Asia
+            <input type="radio" name="answer5" value="Africa" onChange={this.answerSelected}/>Africa
+            <input type="radio" name="answer5" value="North America" onChange={this.answerSelected}/>North America
+            <input type="radio" name="answer5" value="South America" onChange={this.answerSelected}/>South America
+            <input type="radio" name="answer5" value="Australia" onChange={this.answerSelected}/>Australia
+            <input type="radio" name="answer5" value="Antarctica" onChange={this.answerSelected}/>Antarctica
           </div>
           <input className="feedback-button" type="submit" value="Submit"/>
         </form>
