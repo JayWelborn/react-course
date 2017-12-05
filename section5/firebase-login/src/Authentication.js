@@ -23,19 +23,51 @@ export default class Authentication extends Component {
 
     const promise = auth.signInWithEmailAndPassword(email, password);
     promise.catch(e => {
-      var error = e.message;
+      let error = e.message;
       this.setState({error: error})
     })
+
+    this.setState({success: 'Successfully Logged In'})
+  }
+
+  signup(event){
+    const email = this.refs.email.value
+    const password = this.refs.password.value
+    console.log(email, password)
+
+    const auth = firebase.auth();
+
+    const promise = auth.createUserWithEmailAndPassword(email, password)
+
+    // Upon success, create new account
+    promise.then(user => {
+      console.log(user);
+      var success = "Welcome " + user.email;
+      firebase.database().ref('/users/' + user.uid).set({
+        email: user.email
+      });
+
+      this.setState({success: success})
+    });
+
+    // Upon error, show error in message section
+    promise.catch(e => {
+      let error = e.message
+      console.log(error)
+      this.setState({error: error})
+    });
   }
 
   constructor(props){
     super(props);
 
     this.state = {
-      error: ''
+      error: '',
+      success: ''
     };
 
     this.login = this.login.bind(this);
+    this.signup = this.signup.bind(this);
   }
 
   render() {
@@ -45,9 +77,9 @@ export default class Authentication extends Component {
         <br/>
         <input id="password" ref="password" type="password" placeholder="Enter your password"/>
         <br/>
-        <Error error={this.state.error}/>
+        <Message error={this.state.error} success={this.state.success}/>
         <button onClick={this.login}>Log In</button>
-        <button>Sign Up</button>
+        <button onClick={this.signup}>Sign Up</button>
         <button>Log Out</button>
       </div>
     );
@@ -55,7 +87,7 @@ export default class Authentication extends Component {
 }
 
 
-class Error extends Component {
+class Message extends Component {
   render(){
     if (this.props.error){
       return(
@@ -63,8 +95,16 @@ class Error extends Component {
           {this.props.error}
         </p>
       );
-    } else {
-      return(<br/>)
+    } else if (this.props.success) {
+      return(
+        <p className="success">
+          {this.props.success}
+        </p>
+      );
+    } else{
+      return(
+        <br/>
+      );
     }
   }
 }
