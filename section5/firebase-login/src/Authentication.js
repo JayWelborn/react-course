@@ -71,6 +71,10 @@ export default class Authentication extends Component {
     this.setState({success: 'Successfully Logged Out'})
   }
 
+  google(event) {
+    console.log("I am in google method")
+  }
+
   constructor(props){
     super(props);
 
@@ -82,6 +86,7 @@ export default class Authentication extends Component {
     this.login = this.login.bind(this);
     this.signup = this.signup.bind(this);
     this.logout = this.logout.bind(this);
+    this.google = this.google.bind(this);
   }
 
   render() {
@@ -95,6 +100,8 @@ export default class Authentication extends Component {
         <button onClick={this.login}>Log In</button>
         <button onClick={this.signup}>Sign Up</button>
         <button onClick={this.logout} id="logout" className="hide">Log Out</button>
+        <br/>
+        <button onClick={this.google} id="google" >Sign In With Google</button>
       </div>
     );
   }
