@@ -22,12 +22,17 @@ export default class Authentication extends Component {
     const auth = firebase.auth();
 
     const promise = auth.signInWithEmailAndPassword(email, password);
+
+    promise.then(user => {
+      let logout = document.getElementById('logout')
+      logout.classList.remove('hide');
+      this.setState({success: 'Successfully Logged In'})
+    });
+
     promise.catch(e => {
       let error = e.message;
       this.setState({error: error})
-    })
-
-    this.setState({success: 'Successfully Logged In'})
+    });
   }
 
   signup(event){
@@ -58,6 +63,14 @@ export default class Authentication extends Component {
     });
   }
 
+  logout(event) {
+    firebase.auth().signOut();
+    let logout = document.getElementById('logout')
+    logout.classList.add('hide');
+
+    this.setState({success: 'Successfully Logged Out'})
+  }
+
   constructor(props){
     super(props);
 
@@ -68,6 +81,7 @@ export default class Authentication extends Component {
 
     this.login = this.login.bind(this);
     this.signup = this.signup.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   render() {
@@ -80,7 +94,7 @@ export default class Authentication extends Component {
         <Message error={this.state.error} success={this.state.success}/>
         <button onClick={this.login}>Log In</button>
         <button onClick={this.signup}>Sign Up</button>
-        <button>Log Out</button>
+        <button onClick={this.logout} id="logout" className="hide">Log Out</button>
       </div>
     );
   }
