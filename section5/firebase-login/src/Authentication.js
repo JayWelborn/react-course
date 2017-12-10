@@ -73,6 +73,30 @@ export default class Authentication extends Component {
 
   google(event) {
     console.log("I am in google method")
+
+    let provider = new firebase.auth.GoogleAuthProvider();
+    let promise = firebase.auth().signInWithPopup(provider);
+
+    promise.then(result => {
+      let user = result.user
+      console.log(user)
+      firebase.database().ref('users/' + user.uid).set({
+        email: user.email,
+        name: user.displayName
+      })
+
+      let success = 'Welcome ' + user.displayName
+
+      let logout = document.getElementById('logout')
+      logout.classList.remove('hide');
+      this.setState({success: success})
+    });
+
+    promise.catch(e => {
+      let error = e.message;
+      console.log(error)
+      this.setState({error: error})
+    });
   }
 
   constructor(props){
