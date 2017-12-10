@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-var axios = require('axios')
+import ajax from 'superagent';
 
 
 // https://www.reddit.com/r/space.json
@@ -11,11 +11,11 @@ export default class Apicall extends Component {
   }
 
   getReddit(){
-    axios.get(`https://www.reddit.com/r/${this.state.subreddit}.json`)
+    ajax.get(`https://www.reddit.com/r/${this.state.subreddit}.json`)
     .then(res => {
 
       // get array of child posts from reddit's json response
-      const posts = res.data.data.children.map(obj => obj.data);
+      const posts = res.body.data.children.map(obj => obj.data);
       this.setState({posts});
     });
   }
