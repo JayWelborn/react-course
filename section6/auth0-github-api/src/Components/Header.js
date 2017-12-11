@@ -21,13 +21,16 @@ export default class Header extends Component {
 
 
   render() {
+
+    let button;
+
     if(this.props.idToken){
-      var button =
+      button =
         <NavItem onClick={this.onLogout} href="#">
           Logout
         </NavItem>
     } else {
-      var button =
+      button =
         <NavItem onClick={this.onLogin} href="#">
           Login
         </NavItem>
