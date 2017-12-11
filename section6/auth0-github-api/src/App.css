@@ -62,6 +62,7 @@ a {
   background: #fff;
   padding: 1.875rem;
   text-align: center;
+  margin-top: 20px;
 }
 .notfound h2 {
   font-size: 2rem;
@@ -102,14 +103,14 @@ a {
 }
 .github-profile-state li {
   list-style: none;
-  display: inline-block;
-  margin-right: 1rem;
+  margin-bottom: 1rem;
+  color: #fff;
 }
 
 .github-profile-state a {
-  color: #fff;
+  color: #ddd;
 }
-.github-profile-state i {
+.github-profile-state {
   font-size: 1.5rem;
   font-weight: 700;
   font-style: normal;

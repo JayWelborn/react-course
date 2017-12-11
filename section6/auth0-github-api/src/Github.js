@@ -36,8 +36,10 @@ export default class Github extends Component {
         followers: data.followers,
         following: data.following,
         homeURL: data.html_url,
-        notFound: data.message
+        notFound: data.message,
+        location: data.location
       })
+      console.log(data)
     })
     .catch((error) => {
       console.log('There was a problem in fetching data')
