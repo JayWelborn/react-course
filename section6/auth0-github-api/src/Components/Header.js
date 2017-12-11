@@ -8,18 +8,31 @@ export default class Header extends Component {
     this.props.onLogin();
   }
 
+  onLogout(){
+    this.props.onLogout();
+  }
+
   constructor(props){
     super(props);
 
-    this.state = {
-
-    }
-
     this.onLogin = this.onLogin.bind(this)
+    this.onLogout = this.onLogout.bind(this)
   }
 
 
   render() {
+    if(this.props.idToken){
+      var button =
+        <NavItem onClick={this.onLogout} href="#">
+          Logout
+        </NavItem>
+    } else {
+      var button =
+        <NavItem onClick={this.onLogin} href="#">
+          Login
+        </NavItem>
+    }
+
     return (
       <Navbar>
         <Navbar.Header>
@@ -29,9 +42,7 @@ export default class Header extends Component {
         </Navbar.Header>
 
         <Nav>
-          <NavItem onClick={this.onLogin} href="#">
-            Login
-          </NavItem>
+          {button}
         </Nav>
       </Navbar>
     );

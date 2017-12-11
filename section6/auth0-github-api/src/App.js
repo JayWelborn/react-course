@@ -25,9 +25,11 @@ class App extends Component {
     domain: 'jaywelborn.auth0.com'
   }
 
+  // handle Auth0Lock to allow users to log into app
   componentWillMount(){
     this.lock = new Auth0Lock(this.props.clientID, this.props.domain);
 
+    // Authenticate user
     this.lock.on('authenticated', (authResult) => {
       // console.log(authResult)
 
@@ -42,8 +44,12 @@ class App extends Component {
 
       });
     });
+
+    // Get profile if user is already authenticated
+    this.getProfile();
   }
 
+  // set auth0 profile info in local storage upon successful login
   setProfile(idToken, profile){
     localStorage.setItem('idToken', idToken)
     localStorage.setItem('profile', JSON.stringify(profile));
@@ -54,17 +60,52 @@ class App extends Component {
     });
   }
 
+  // get Profile info from Local Storage if it's there
+  getProfile(){
+    if(localStorage.getItem('idToken') != null){
+      this.setState({
+        idToken: localStorage.getItem('idToken'),
+        profile: JSON.parse(localStorage.getItem('profile'))
+      }, () => {
+        console.log(this.state)
+      });
+    }
+  }
+
   showLock(){
     this.lock.show();
   }
 
+  logout(){
+    this.setState({
+      idToken: '',
+      profile: ''
+    }, () => {
+      localStorage.removeItem('idToken')
+      localStorage.removeItem('profile')
+    });
+  }
+
   render() {
+
+    let page;
+
+    if (this.state.idToken){
+      page = <Github />
+    } else {
+      page = 'Click on Login to view GitHub Viewer'
+    }
+
     return (
       <div className="App">
         <Header
+          lock={this.lock}
+          idToken={this.state.idToken}
+          profile={this.state.profile}
           onLogin={this.showLock.bind(this)}
+          onLogout={this.logout.bind(this)}
         />
-        <Github/>
+        {page}
       </div>
     );
   }
