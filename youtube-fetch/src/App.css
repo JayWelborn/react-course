@@ -33,7 +33,10 @@ body {
 
 .youtube {
   border: 2px #2c3e50 dashed;
-  margin-top: 20px;
+  margin: 20px;
+  display: inline-block;
+  min-width: 150px;
+  width: 30%;
 }
 
 button {
@@ -41,4 +44,12 @@ button {
   padding: 20px;
   font-size: 1rem;
   background-color: orange;
+}
+
+input {
+  margin-top: 20px;
+  padding: 5px 10px;
+  font-size: 20px;
+  display: block;
+  margin: 20px auto 0px auto;
 }

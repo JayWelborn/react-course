@@ -3,9 +3,7 @@ import Keys from './Keys'
 
 const YOUTUBE_API_KEY = Keys.youtube_api;
 const channelId = Keys.youtube_channel;
-const result = 10;
 
-var finalURL = `https://www.googleapis.com/youtube/v3/search?key=${YOUTUBE_API_KEY}&channelId=${channelId}&part=snippet,id&order=date&maxResults=${result}`
 
 export default class Youtube extends Component {
 
@@ -14,12 +12,15 @@ export default class Youtube extends Component {
 
     this.state = {
       result: [],
+      maxResults: 10
     };
-    this.clicked = this.clicked.bind(this);
+
+    this.getVideos = this.getVideos.bind(this)
+    this.handleChange = this.handleChange.bind(this)
   }
 
-  clicked(){
-    fetch(finalURL)
+  getVideos(results = this.state.maxResults){
+    fetch(`https://www.googleapis.com/youtube/v3/search?key=${YOUTUBE_API_KEY}&channelId=${channelId}&part=snippet,id&order=date&maxResults=${results}`)
     .then(response => response.json())
     .then(responseJson => {
       let result = responseJson.items.map(obj => "https://www.youtube.com/embed/"+obj.id.videoId);
@@ -30,11 +31,22 @@ export default class Youtube extends Component {
     });
   }
 
+  handleChange(event){
+    this.setState({maxResults: event.target.value})
+    this.getVideos(event.target.value)
+  }
+
+  componentDidMount() {
+    this.getVideos()
+  }
+
   render() {
     console.log(this.state.result)
     return (
       <div>
-        <button onClick={this.clicked}>Get YouTube Videos</button>
+
+        <input type="number" value={this.state.maxResults} onChange={this.handleChange} min="1" max="20" step="1"/>
+
         {
           this.state.result.map((link, i) => {
             console.log(link)
@@ -46,6 +58,7 @@ export default class Youtube extends Component {
           })
         }
         {this.frame}
+
       </div>
     );
   }
